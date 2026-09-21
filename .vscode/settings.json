@@ -1,0 +1,33 @@
+{
+  "idf.currentSetup": "D:/esp32idf/Espressif/frameworks/esp-idf-v5.5.4/",
+  "idf.espIdfPathWin": "D:/esp32idf/Espressif/frameworks/esp-idf-v5.5.4",
+  "idf.toolsPathWin": "D:/esp32idf/Espressif",
+  "idf.pythonBinPathWin": "D:/esp32idf/Espressif/python_env/idf5.5_py3.11_env/Scripts/python.exe",
+  "idf.pythonInstallPath": "D:/esp32idf/Espressif/python_env/idf5.5_py3.11_env/Scripts/python.exe",
+  "idf.gitPathWin": "D:/esp32idf/Espressif/tools/idf-git/2.44.0/cmd/git.exe",
+  "idf.customExtraPaths": "D:\\esp32idf\\Espressif\\tools\\xtensa-esp-elf-gdb\\16.3_20250913\\xtensa-esp-elf-gdb\\bin;D:\\esp32idf\\Espressif\\tools\\riscv32-esp-elf-gdb\\16.3_20250913\\riscv32-esp-elf-gdb\\bin;D:\\esp32idf\\Espressif\\tools\\xtensa-esp-elf\\esp-14.2.0_20260121\\xtensa-esp-elf\\bin;D:\\esp32idf\\Espressif\\tools\\esp-clang\\esp-19.1.2_20250312\\esp-clang\\bin;D:\\esp32idf\\Espressif\\tools\\riscv32-esp-elf\\esp-14.2.0_20260121\\riscv32-esp-elf\\bin;D:\\esp32idf\\Espressif\\tools\\esp32ulp-elf\\2.38_20240113\\esp32ulp-elf\\bin;D:\\esp32idf\\Espressif\\tools\\cmake\\3.30.2\\bin;D:\\esp32idf\\Espressif\\tools\\openocd-esp32\\v0.12.0-esp32-20251215\\openocd-esp32\\bin;D:\\esp32idf\\Espressif\\tools\\ninja\\1.12.1;D:\\esp32idf\\Espressif\\tools\\idf-exe\\1.0.3;D:\\esp32idf\\Espressif\\tools\\ccache\\4.12.1\\ccache-4.12.1-windows-x86_64;D:\\esp32idf\\Espressif\\tools\\dfu-util\\0.11\\dfu-util-0.11-win64;D:\\esp32idf\\Espressif\\python_env\\idf5.5_py3.11_env\\Scripts;D:\\esp32idf\\Espressif\\frameworks\\esp-idf-v5.5.4\\tools",
+  "idf.customExtraVars": {
+    "IDF_TOOLS_PATH": "D:\\esp32idf\\Espressif",
+    "IDF_CCACHE_ENABLE": "1",
+    "OPENOCD_SCRIPTS": "D:\\esp32idf\\Espressif\\tools\\openocd-esp32\\v0.12.0-esp32-20251215\\openocd-esp32\\share\\openocd\\scripts",
+    "ESP_ROM_ELF_DIR": "D:\\esp32idf\\Espressif\\tools\\esp-rom-elfs\\20241011\\",
+    "IDF_TARGET": "esp32s3"
+  },
+  "idf.flashType": "UART",
+  "idf.openOcdConfigs": [
+    "board/esp32s3-builtin.cfg"
+  ],
+  "terminal.integrated.env.windows": {
+    "IDF_PATH": "D:/esp32idf/Espressif/frameworks/esp-idf-v5.5.4",
+    "IDF_TOOLS_PATH": "D:/esp32idf/Espressif",
+    "IDF_PYTHON_ENV_PATH": "D:/esp32idf/Espressif/python_env/idf5.5_py3.11_env",
+    "PATH": "D:\\esp32idf\\Espressif\\frameworks\\esp-idf-v5.5.4\\components\\espcoredump;D:\\esp32idf\\Espressif\\frameworks\\esp-idf-v5.5.4\\components\\partition_table;D:\\esp32idf\\Espressif\\frameworks\\esp-idf-v5.5.4\\components\\app_update;D:\\esp32idf\\Espressif\\tools\\xtensa-esp-elf-gdb\\16.3_20250913\\xtensa-esp-elf-gdb\\bin;D:\\esp32idf\\Espressif\\tools\\riscv32-esp-elf-gdb\\16.3_20250913\\riscv32-esp-elf-gdb\\bin;D:\\esp32idf\\Espressif\\tools\\xtensa-esp-elf\\esp-14.2.0_20260121\\xtensa-esp-elf\\bin;D:\\esp32idf\\Espressif\\tools\\esp-clang\\esp-19.1.2_20250312\\esp-clang\\bin;D:\\esp32idf\\Espressif\\tools\\riscv32-esp-elf\\esp-14.2.0_20260121\\riscv32-esp-elf\\bin;D:\\esp32idf\\Espressif\\tools\\esp32ulp-elf\\2.38_20240113\\esp32ulp-elf\\bin;D:\\esp32idf\\Espressif\\tools\\cmake\\3.30.2\\bin;D:\\esp32idf\\Espressif\\tools\\openocd-esp32\\v0.12.0-esp32-20251215\\openocd-esp32\\bin;D:\\esp32idf\\Espressif\\tools\\ninja\\1.12.1;D:\\esp32idf\\Espressif\\tools\\idf-exe\\1.0.3;D:\\esp32idf\\Espressif\\tools\\ccache\\4.12.1\\ccache-4.12.1-windows-x86_64;D:\\esp32idf\\Espressif\\tools\\dfu-util\\0.11\\dfu-util-0.11-win64;D:\\esp32idf\\Espressif\\python_env\\idf5.5_py3.11_env\\Scripts;D:\\esp32idf\\Espressif\\frameworks\\esp-idf-v5.5.4\\tools;${env:PATH}"
+  },
+  "clangd.path": "D:\\esp32idf\\Espressif\\tools\\esp-clang\\esp-19.1.2_20250312\\esp-clang\\bin\\clangd.exe",
+  "clangd.arguments": [
+    "--background-index",
+    "--query-driver=**",
+    "--compile-commands-dir=c:\\Users\\VegetaYing\\Desktop\\project\\recive\\build"
+  ],
+  "idf.portWin": "COM14"
+}
