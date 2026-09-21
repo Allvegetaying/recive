@@ -102,5 +102,11 @@ void app_main(void)
 
     gpio_init();
     xTaskCreate(rf_recv_task, "rf_recv", 4096, NULL, 9, &s_rf_task);
-    
+
+    while (1) 
+    {
+        
+        vTaskDelay(pdMS_TO_TICKS(1000));
+    }
+
 }
