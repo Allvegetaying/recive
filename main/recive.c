@@ -1,23 +1,43 @@
 #include <stdio.h>
+#include <string.h>
 #include <inttypes.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "driver/gpio.h"
+#include "driver/uart.h"
 #include "esp_log.h"
 #include "A7169.h"
 
 #define A7169_GIO1_IRQ_PIN  GPIO_NUM_10
+#define UART0_PORT          UART_NUM_0
+#define UART0_BAUD_RATE     115200
 
 static const char *TAG = "main";
 static TaskHandle_t s_rf_task = NULL;
 
 static void IRAM_ATTR gpio10_isr_handler(void *arg)
 {
-    if (s_rf_task) {
+    if (s_rf_task) 
+    {
         BaseType_t woken = pdFALSE;
         xTaskNotifyFromISR(s_rf_task, 1, eSetValueWithOverwrite, &woken);
         portYIELD_FROM_ISR(woken);
     }
+}
+
+static void uart0_init(void)
+{
+    const uart_config_t uart_config = {
+        .baud_rate  = UART0_BAUD_RATE,
+        .data_bits  = UART_DATA_8_BITS,
+        .parity     = UART_PARITY_DISABLE,
+        .stop_bits  = UART_STOP_BITS_1,
+        .flow_ctrl  = UART_HW_FLOWCTRL_DISABLE,
+        .source_clk = UART_SCLK_DEFAULT,
+    };
+    uart_driver_install(UART0_PORT, 1024, 0, 0, NULL, 0);
+    uart_param_config(UART0_PORT, &uart_config);
+    uart_set_pin(UART0_PORT, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
 }
 
 static void rf_recv_task(void *pv)
@@ -25,19 +45,32 @@ static void rf_recv_task(void *pv)
     uint8_t buf[64];
     uint32_t val;
     rf_normal_data_t data;
+    char tx_buf[128];
 
-    ESP_LOGI(TAG, "433 RF 接收监听中...");
+    ESP_LOGI(TAG, "433 RF 接收监听中，数据将通过串口0发送...");
 
-    while (1) {
-        if (xTaskNotifyWait(0, 0, &val, pdMS_TO_TICKS(100)) == pdTRUE) {
+    while (1) 
+    {
+        if (xTaskNotifyWait(0, 0, &val, pdMS_TO_TICKS(100)) == pdTRUE) 
+        {
             uint8_t len = A7169_GetData(buf, RF_NORMAL_FRAME_LEN - 1);
-            if (len > 0 && A7169_ParseNormalData(buf, len, &data)) {
-                printf("[433] ID=%02X%02X%08" PRIX32 " PRESS=%.1fkPa TEMP=%dC ACC=%.1fg VENDOR=0x%02X TYPE=0x%02X\n",
-                       data.vendor_type, data.sensor_type, data.sensor_id,
-                       data.pressure_kpa, data.temperature_c, data.acceleration_g,
-                       data.vendor_type, data.sensor_type);
+            if (len > 0 && A7169_ParseNormalData(buf, len, &data)) 
+            {
+                // 格式化并通过串口0发送
+                int tx_len = snprintf(tx_buf, sizeof(tx_buf),
+                    "[433] ID=%02X%02X%08" PRIX32 " PRESS=%.1fkPa TEMP=%dC ACC=%.1fg VENDOR=0x%02X TYPE=0x%02X STATUS=0x%02X\r\n",
+                    data.vendor_type, data.sensor_type, data.sensor_id,
+                    data.pressure_kpa, data.temperature_c, data.acceleration_g,
+                    data.vendor_type, data.sensor_type, data.status);
+
+                if (tx_len > 0) 
+                {
+                    uart_write_bytes(UART0_PORT, tx_buf, tx_len);
+                }
             }
-        } else if (GIO1S == 0) {
+        } 
+        else if (GIO1S == 0) 
+        {
             A7169_RxFifoReset();
         }
     }
@@ -47,9 +80,9 @@ static void gpio_init(void)
 {
     gpio_config_t io_conf = {
         .pin_bit_mask = (1ULL << A7169_GIO1_IRQ_PIN),
-        .mode = GPIO_MODE_INPUT,
+        .mode         = GPIO_MODE_INPUT,
         .pull_down_en = GPIO_PULLDOWN_ENABLE,
-        .intr_type = GPIO_INTR_NEGEDGE,
+        .intr_type    = GPIO_INTR_NEGEDGE,
     };
     gpio_config(&io_conf);
     gpio_install_isr_service(0);
@@ -58,7 +91,10 @@ static void gpio_init(void)
 
 void app_main(void)
 {
-    if (InitRF() != 0) {
+    uart0_init();
+
+    if (InitRF() != 0) 
+    {
         ESP_LOGE(TAG, "433 RF 初始化失败，请检查接线 (CS:11, CLK:8, DIO:9, GIO1:10)");
         return;
     }
@@ -66,4 +102,5 @@ void app_main(void)
 
     gpio_init();
     xTaskCreate(rf_recv_task, "rf_recv", 4096, NULL, 9, &s_rf_task);
+    
 }

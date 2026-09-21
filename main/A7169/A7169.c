@@ -1604,7 +1604,7 @@ uint8_t A7169_ParseNormalData(const uint8_t *data, uint8_t len, rf_normal_data_t
         out->status = data[9];
         out->acceleration_g = ((int8_t)data[6]) * 0.2f;
         out->temperature_c = (int16_t)data[7] - 50;
-        out->pressure_kpa = (data[9] & 0x80) ? (1402.0f + data[8] * 5.5f) : (100.0f + data[8] * 5.5f);
+        out->pressure_kpa = (data[9] & 0x80) ? (1402.0f + data[8] * 5.5f) : (data[8] * 5.5f);
     }
 
     return 1;
