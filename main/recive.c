@@ -43,14 +43,8 @@ static void rf_recv_task(void *pv)
     }
 }
 
-void app_main(void)
+static void gpio_init(void)
 {
-    if (InitRF() != 0) {
-        ESP_LOGE(TAG, "433 RF 初始化失败，请检查接线 (CS:11, CLK:8, DIO:9, GIO1:10)");
-        return;
-    }
-    ESP_LOGI(TAG, "433 RF 初始化成功");
-
     gpio_config_t io_conf = {
         .pin_bit_mask = (1ULL << A7169_GIO1_IRQ_PIN),
         .mode = GPIO_MODE_INPUT,
@@ -60,6 +54,16 @@ void app_main(void)
     gpio_config(&io_conf);
     gpio_install_isr_service(0);
     gpio_isr_handler_add(A7169_GIO1_IRQ_PIN, gpio10_isr_handler, NULL);
+}
 
+void app_main(void)
+{
+    if (InitRF() != 0) {
+        ESP_LOGE(TAG, "433 RF 初始化失败，请检查接线 (CS:11, CLK:8, DIO:9, GIO1:10)");
+        return;
+    }
+    ESP_LOGI(TAG, "433 RF 初始化成功");
+
+    gpio_init();
     xTaskCreate(rf_recv_task, "rf_recv", 4096, NULL, 9, &s_rf_task);
 }
